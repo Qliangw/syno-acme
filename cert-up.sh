@@ -29,14 +29,15 @@ installAcme () {
   mkdir -p ${TEMP_PATH}
   cd ${TEMP_PATH}
   echo 'begin downloading acme.sh tool...'
-  ACME_SH_ADDRESS=`curl -L -o acme.sh.tar.gz https://github.com/acmesh-official/acme.sh/archive/refs/tags/${ACME_VERSION}.tar.gz`
+  source ${BASE_ROOT}/config
+  #ACME_SH_ADDRESS=`curl -L https://github.com/acmesh-official/acme.sh/archive/refs/tags/3.0.1.tar.gz`
   SRC_TAR_NAME=acme.sh.tar.gz
-  curl -L -o ${SRC_TAR_NAME} ${ACME_SH_ADDRESS}
+  curl -L -o ${SRC_TAR_NAME} https://github.com/acmesh-official/acme.sh/archive/refs/tags/${ACME_VERSION}.tar.gz
+  #curl -L -o ${SRC_TAR_NAME} ${ACME_SH_ADDRESS}
   SRC_NAME=`tar -tzf ${SRC_TAR_NAME} | head -1 | cut -f1 -d"/"`
   tar zxvf ${SRC_TAR_NAME}
   echo 'begin installing acme.sh tool...'
   cd ${SRC_NAME}
-  source ${BASE_ROOT}/config
   ./acme.sh --register-account -m ${INIT_EMAIL_ADDR}
   ./acme.sh --install --nocron --home ${ACME_BIN_PATH}
   echo 'done installAcme'
@@ -50,10 +51,9 @@ generateCrt () {
   source config
   echo 'begin updating default cert by acme.sh tool'
   source ${ACME_BIN_PATH}/acme.sh.env
-  ${ACME_BIN_PATH}/acme.sh --force --debug --issue \
-  --dns ${DNS} --dnssleep ${DNS_SLEEP} -d "${DOMAIN}" -d "*.${DOMAIN}" \
-  --yes-I-know-dns-manual-mode-enough-go-ahead-please
-  ${ACME_BIN_PATH}/acme.sh --force --installcert -d ${DOMAIN} -d *.${DOMAIN} \
+  ${ACME_BIN_PATH}/acme.sh --debug --force --issue --dns ${DNS} --dnssleep "${DNS_SLEEP}" -d "${DOMAIN}" -d "*.${DOMAIN}"
+  #${ACME_BIN_PATH}/acme.sh --debug --issue --dns ${DNS} -d "${DOMAIN}" -d "*.${DOMAIN}" --yes-I-know-dns-manual-mode-enough-go-ahead-please
+  ${ACME_BIN_PATH}/acme.sh --debug --force --installcert -d ${DOMAIN} -d *.${DOMAIN} \
     --certpath ${CRT_PATH}/cert.pem \
     --key-file ${CRT_PATH}/privkey.pem \
     --fullchain-file ${CRT_PATH}/fullchain.pem
