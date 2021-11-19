@@ -1,5 +1,9 @@
 # 你主域名，如 baidu.com sina.com.cn 等
 export DOMAIN=your_domain
+# 你的acme注册邮箱
+export INIT_EMAIL_ADDR="your_mail@gmail.com"
+# 你想要使用的版本号 https://github.com/acmesh-official/acme.sh/releases
+export ACME_VERSION="3.0.1"
 
 # DNS类型，根据域名服务商而定
 export DNS=dns_xxx
@@ -26,3 +30,12 @@ export AWS_SECRET_ACCESS_KEY="xxxxxxx"
 
 # Linode DNS=dns_linode
 export LINODE_API_KEY="xxxxxxxx"
+
+# Linode DNS=dns_cf 两种模式,这是其中第一种
+export CF_Key="xxxx"
+export CF_Email="xxx"
+
+# Linode DNS=dns_cf 两种模式,这是其中第二种
+export CF_Token="xxxx"
+export CF_Account_ID="xxxx"
+export CF_Zone_ID="xxxx"
