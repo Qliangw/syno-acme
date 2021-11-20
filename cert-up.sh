@@ -50,8 +50,12 @@ installAcme () {
   tar zxvf ${SRC_TAR_NAME}
   echo 'begin installing acme.sh tool...'
   cd ${SRC_NAME}
-  ./acme.sh --register-account -m ${INIT_EMAIL_ADDR}
-  ./acme.sh --install --nocron --home ${ACME_BIN_PATH}
+  if [INIT_EMAIL_ADDR = ""]; then
+    ./acme.sh --install --nocron --home ${ACME_BIN_PATH}
+  else
+    ./acme.sh --register-account -m ${INIT_EMAIL_ADDR}
+    ./acme.sh --install --nocron --home ${ACME_BIN_PATH}
+  fi
   echo 'done installAcme'
   rm -rf ${TEMP_PATH}
   return 0
