@@ -1,19 +1,22 @@
-# 你主域名，如 baidu.com sina.com.cn 等
+# 【必须】你主域名，如 baidu.com sina.com.cn 等
 export DOMAIN=your_domain
 
-# 你的acme注册邮箱
-export INIT_EMAIL_ADDR="your_mail@gmail.com"
-
-# 你想要使用的版本号 https://github.com/acmesh-official/acme.sh/releases
-export ACME_VERSION="3.0.1"
-
-# DNS类型，根据域名服务商而定
+# 【必须】DNS类型，根据域名服务商而定
 export DNS=dns_xxx
 
-# DNS API 生效等待时间 值(单位：秒)
+# 【可选吧，更新证书失败换个邮箱试试看】你的acme注册邮箱
+export INIT_EMAIL_ADDR=""
+
+# 【可选】配置要使用的版本号,留空则拉去最新库 
+# 官方库地址：https://github.com/acmesh-official/acme.sh/releases
+export ACME_VERSION=""
+
+
+# 【可选配置】DNS API 生效等待时间 值(单位：秒)
 # 某些域名服务商的API生效时间较大，需要将这个值加大(比如900)
 export DNS_SLEEP=120
 
+##############这里根据自己DNS运营商选择####################
 # 阿里云 DNS=dns_ali
 export Ali_Key="LTqIA87hOKdjevsf5"
 export Ali_Secret="0p5EYueFNq501xnCPzKNbx6K51qPH2"
@@ -33,11 +36,17 @@ export AWS_SECRET_ACCESS_KEY="xxxxxxx"
 # Linode DNS=dns_linode
 export LINODE_API_KEY="xxxxxxxx"
 
-# Linode DNS=dns_cf 两种模式,这是其中第一种
+#【简单，推荐】cloudflare任选其一
+# Linode DNS=dns_cf
 export CF_Key="xxxx"
 export CF_Email="xxx"
 
-# Linode DNS=dns_cf 两种模式,这是其中第二种
+#【独立授权，安全】cloudflare任选其一
+# Linode DNS=dns_cf 
 export CF_Token="xxxx"
 export CF_Account_ID="xxxx"
 export CF_Zone_ID="xxxx"
+
+############如果没有找到自己的可在这里添加####################
+# 查看地址： https://github.com/acmesh-official/acme.sh/tree/master/dnsapi
+# 使用方法：http://www.up4dev.com/2018/05/29/synology-ssl-wildcard-cert-update/
