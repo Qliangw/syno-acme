@@ -13,6 +13,13 @@ TEMP_PATH=${BASE_ROOT}/temp
 CRT_PATH_NAME=`cat ${CRT_BASE_PATH}/_archive/DEFAULT`
 CRT_PATH=${CRT_BASE_PATH}/_archive/${CRT_PATH_NAME}
 
+ACME_API="https://api.github.com/repos/acmesh-official/acme.sh/releases/latest"
+ACME_REPO="https://github.com/acmesh-official/acme.sh/archive/refs/tags/"
+
+function getOnlineVersion(){
+  TAG_NAME=`curl -s "${ACME_API}" | jq -r .tag_name`
+}
+
 backupCrt () {
   echo 'begin backupCrt'
   BACKUP_PATH=${BASE_ROOT}/backup/${DATE_TIME}
@@ -28,12 +35,17 @@ installAcme () {
   echo 'begin installAcme'
   mkdir -p ${TEMP_PATH}
   cd ${TEMP_PATH}
-  echo 'begin downloading acme.sh tool...'
   source ${BASE_ROOT}/config
-  #ACME_SH_ADDRESS=`curl -L https://github.com/acmesh-official/acme.sh/archive/refs/tags/3.0.1.tar.gz`
+  if [$ACME_VERSION = ""] ; then
+    getOnlineVersion
+    ACME_VERSION=$TAG_NAME
+    echo "online latest version is Ver"$ACME_VERSION
+  else 
+    echo "The upcoming download version is Ver"$ACME_VERSION
+  fi
+  echo 'begin downloading acme.sh tool...'
   SRC_TAR_NAME=acme.sh.tar.gz
-  curl -L -o ${SRC_TAR_NAME} https://github.com/acmesh-official/acme.sh/archive/refs/tags/${ACME_VERSION}.tar.gz
-  #curl -L -o ${SRC_TAR_NAME} ${ACME_SH_ADDRESS}
+  curl -L -o ${SRC_TAR_NAME} ${ACME_REPO}${ACME_VERSION}.tar.gz
   SRC_NAME=`tar -tzf ${SRC_TAR_NAME} | head -1 | cut -f1 -d"/"`
   tar zxvf ${SRC_TAR_NAME}
   echo 'begin installing acme.sh tool...'
