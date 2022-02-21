@@ -36,7 +36,7 @@ installAcme () {
   mkdir -p ${TEMP_PATH}
   cd ${TEMP_PATH}
   source ${BASE_ROOT}/config
-  if [$ACME_VERSION = ""] ; then
+  if [[ $ACME_VERSION = "" ]] ; then
     getOnlineVersion
     ACME_VERSION=$TAG_NAME
     echo "online latest version is Ver"$ACME_VERSION
@@ -50,7 +50,7 @@ installAcme () {
   tar zxvf ${SRC_TAR_NAME}
   echo 'begin installing acme.sh tool...'
   cd ${SRC_NAME}
-  if [$INIT_EMAIL_ADDR = ""]; then
+  if [[ $INIT_EMAIL_ADDR = "" ]]; then
     ./acme.sh --install --nocron --home ${ACME_BIN_PATH}
   else
     ./acme.sh --register-account -m ${INIT_EMAIL_ADDR}
